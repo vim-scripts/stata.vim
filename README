@@ -1,0 +1,14 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=440
+
+stata.vim is a syntax file for Stata do and ado programs.
+
+This syntax file will help identify:
+
+* some common Stata programming commands
+* Stata functions
+* local and global macro expansions
+* regular ("") and compound (`""') double quotes
+* numeric and string formats 
+* Stata comments
+* errors in parens, brackets, ...
+
