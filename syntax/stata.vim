@@ -2,441 +2,447 @@
 " Language:	Stata and/or Mata
 " Maintainer:	Jeff Pitblado <jpitblado@stata.com>
 " Last Change:	14apr2006
+" Version:	1.1.1
 " Location:	http://www.stata.com/users/jpitblado/files/vimfiles/syntax/stata.vim
 
-if exists("did_stata_syntax_inits")
-"	finish
-endif
-let did_stata_syntax_inits = 1
+" Log:
+" 14apr2006	renamed syntax groups st* to stata*
+"		'syntax clear' only under version control
+"		check for 'b:current_syntax', removed 'did_stat_syntax_inits'
 
-syntax clear
+if version < 600
+	syntax clear
+elseif exists("b:current_syntax")
+	finish
+endif
+
 syntax case match
 
 " comments - single line
 " note that the triple slash continuing line comment comes free
-syn region stStarComment  start=/^\s*\*/ end=/$/    contains=stComment oneline
-syn region stSlashComment start="\s//"   end=/$/    contains=stComment oneline
-syn region stSlashComment start="^//"    end=/$/    contains=stComment oneline
+syn region stataStarComment  start=/^\s*\*/ end=/$/    contains=stataComment oneline
+syn region stataSlashComment start="\s//"   end=/$/    contains=stataComment oneline
+syn region stataSlashComment start="^//"    end=/$/    contains=stataComment oneline
 " comments - multiple line
-syn region stComment      start="/\*"    end="\*/"  contains=stComment
+syn region stataComment      start="/\*"    end="\*/"  contains=stataComment
 
 " global macros - simple case
-syn match  stGlobal /\$\a\w*/
+syn match  stataGlobal /\$\a\w*/
 " global macros - general case
-syn region stGlobal start=/\${/ end=/}/ oneline contains=@stMacroGroup
+syn region stataGlobal start=/\${/ end=/}/ oneline contains=@stataMacroGroup
 " local macros - general case
-syn region stLocal  start=/`/ end=/'/   oneline contains=@stMacroGroup
+syn region stataLocal  start=/`/ end=/'/   oneline contains=@stataMacroGroup
 
 " numeric formats
-syn match  stFormat /%-\=\d\+\.\d\+[efg]c\=/
+syn match  stataFormat /%-\=\d\+\.\d\+[efg]c\=/
 " numeric hex format
-syn match  stFormat /%-\=21x/
+syn match  stataFormat /%-\=21x/
 " string format
-syn match  stFormat /%\(\|-\|\~\)\d\+s/
+syn match  stataFormat /%\(\|-\|\~\)\d\+s/
 
 " Statements
-syn keyword stConditional else if
-syn keyword stRepeat      foreach
-syn keyword stRepeat      forv[alues]
-syn keyword stRepeat      while
+syn keyword stataConditional else if
+syn keyword stataRepeat      foreach
+syn keyword stataRepeat      forv[alues]
+syn keyword stataRepeat      while
 
 " Common programming commands
-syn keyword stCommand about
-syn keyword stCommand adopath
-syn keyword stCommand adoupdate
-syn keyword stCommand assert
-syn keyword stCommand break
-syn keyword stCommand by
-syn keyword stCommand cap[ture]
-syn keyword stCommand cd
-syn keyword stCommand chdir
-syn keyword stCommand checksum
-syn keyword stCommand class
-syn keyword stCommand classutil
-syn keyword stCommand compress
-syn keyword stCommand conf[irm]
-syn keyword stCommand conren
-syn keyword stCommand continue
-syn keyword stCommand cou[nt]
-syn keyword stCommand cscript
-syn keyword stCommand cscript_log
-syn keyword stCommand #delimit
-syn keyword stCommand d[escribe]
-syn keyword stCommand dir
-syn keyword stCommand discard
-syn keyword stCommand di[splay]
-syn keyword stCommand do
-syn keyword stCommand doedit
-syn keyword stCommand drop
-syn keyword stCommand edit
-syn keyword stCommand end
-syn keyword stCommand erase
-syn keyword stCommand eret[urn]
-syn keyword stCommand err[or]
-syn keyword stCommand e[xit]
-syn keyword stCommand expand
-syn keyword stCommand expandcl
-syn keyword stCommand file
-syn keyword stCommand findfile
-syn keyword stCommand format
-syn keyword stCommand g[enerate]
-syn keyword stCommand gettoken
-syn keyword stCommand gl[obal]
-syn keyword stCommand help
-syn keyword stCommand hexdump
-syn keyword stCommand include
-syn keyword stCommand infile
-syn keyword stCommand infix
-syn keyword stCommand input
-syn keyword stCommand insheet
-syn keyword stCommand joinby
-syn keyword stCommand la[bel]
-syn keyword stCommand levelsof
-syn keyword stCommand list
-syn keyword stCommand loc[al]
-syn keyword stCommand log
-syn keyword stCommand ma[cro]
-syn keyword stCommand mark
-syn keyword stCommand markout
-syn keyword stCommand marksample
-syn keyword stCommand mata
-syn keyword stCommand matrix
-syn keyword stCommand memory
-syn keyword stCommand merge
-syn keyword stCommand mkdir
-syn keyword stCommand more
-syn keyword stCommand net
-syn keyword stCommand nobreak
-syn keyword stCommand n[oisily]
-syn keyword stCommand note[s]
-syn keyword stCommand numlist
-syn keyword stCommand outfile
-syn keyword stCommand outsheet
-syn keyword stCommand _parse
-syn keyword stCommand pause
-syn keyword stCommand plugin
-syn keyword stCommand post
-syn keyword stCommand postclose
-syn keyword stCommand postfile
-syn keyword stCommand preserve
-syn keyword stCommand print
-syn keyword stCommand printer
-syn keyword stCommand profiler
-syn keyword stCommand pr[ogram]
-syn keyword stCommand q[uery]
-syn keyword stCommand qui[etly]
-syn keyword stCommand rcof
-syn keyword stCommand reg[ress]
-syn keyword stCommand rename
-syn keyword stCommand repeat
-syn keyword stCommand replace
-syn keyword stCommand reshape
-syn keyword stCommand ret[urn]
-syn keyword stCommand _rmcoll
-syn keyword stCommand _rmcoll
-syn keyword stCommand _rmcollright
-syn keyword stCommand rmdir
-syn keyword stCommand _robust
-syn keyword stCommand save
-syn keyword stCommand sca[lar]
-syn keyword stCommand search
-syn keyword stCommand serset
-syn keyword stCommand set
-syn keyword stCommand shell
-syn keyword stCommand sleep
-syn keyword stCommand sort
-syn keyword stCommand split
-syn keyword stCommand sret[urn]
-syn keyword stCommand ssc
-syn keyword stCommand su[mmarize]
-syn keyword stCommand syntax
-syn keyword stCommand sysdescribe
-syn keyword stCommand sysdir
-syn keyword stCommand sysuse
-syn keyword stCommand token[ize]
-syn keyword stCommand translate
-syn keyword stCommand type
-syn keyword stCommand unab
-syn keyword stCommand unabcmd
-syn keyword stCommand update
-syn keyword stCommand use
-syn keyword stCommand vers[ion]
-syn keyword stCommand view
-syn keyword stCommand viewsource
-syn keyword stCommand webdescribe
-syn keyword stCommand webseek
-syn keyword stCommand webuse
-syn keyword stCommand which
-syn keyword stCommand who
-syn keyword stCommand window
+syn keyword stataCommand about
+syn keyword stataCommand adopath
+syn keyword stataCommand adoupdate
+syn keyword stataCommand assert
+syn keyword stataCommand break
+syn keyword stataCommand by
+syn keyword stataCommand cap[ture]
+syn keyword stataCommand cd
+syn keyword stataCommand chdir
+syn keyword stataCommand checksum
+syn keyword stataCommand class
+syn keyword stataCommand classutil
+syn keyword stataCommand compress
+syn keyword stataCommand conf[irm]
+syn keyword stataCommand conren
+syn keyword stataCommand continue
+syn keyword stataCommand cou[nt]
+syn keyword stataCommand cscript
+syn keyword stataCommand cscript_log
+syn keyword stataCommand #delimit
+syn keyword stataCommand d[escribe]
+syn keyword stataCommand dir
+syn keyword stataCommand discard
+syn keyword stataCommand di[splay]
+syn keyword stataCommand do
+syn keyword stataCommand doedit
+syn keyword stataCommand drop
+syn keyword stataCommand edit
+syn keyword stataCommand end
+syn keyword stataCommand erase
+syn keyword stataCommand eret[urn]
+syn keyword stataCommand err[or]
+syn keyword stataCommand e[xit]
+syn keyword stataCommand expand
+syn keyword stataCommand expandcl
+syn keyword stataCommand file
+syn keyword stataCommand findfile
+syn keyword stataCommand format
+syn keyword stataCommand g[enerate]
+syn keyword stataCommand gettoken
+syn keyword stataCommand gl[obal]
+syn keyword stataCommand help
+syn keyword stataCommand hexdump
+syn keyword stataCommand include
+syn keyword stataCommand infile
+syn keyword stataCommand infix
+syn keyword stataCommand input
+syn keyword stataCommand insheet
+syn keyword stataCommand joinby
+syn keyword stataCommand la[bel]
+syn keyword stataCommand levelsof
+syn keyword stataCommand list
+syn keyword stataCommand loc[al]
+syn keyword stataCommand log
+syn keyword stataCommand ma[cro]
+syn keyword stataCommand mark
+syn keyword stataCommand markout
+syn keyword stataCommand marksample
+syn keyword stataCommand mata
+syn keyword stataCommand matrix
+syn keyword stataCommand memory
+syn keyword stataCommand merge
+syn keyword stataCommand mkdir
+syn keyword stataCommand more
+syn keyword stataCommand net
+syn keyword stataCommand nobreak
+syn keyword stataCommand n[oisily]
+syn keyword stataCommand note[s]
+syn keyword stataCommand numlist
+syn keyword stataCommand outfile
+syn keyword stataCommand outsheet
+syn keyword stataCommand _parse
+syn keyword stataCommand pause
+syn keyword stataCommand plugin
+syn keyword stataCommand post
+syn keyword stataCommand postclose
+syn keyword stataCommand postfile
+syn keyword stataCommand preserve
+syn keyword stataCommand print
+syn keyword stataCommand printer
+syn keyword stataCommand profiler
+syn keyword stataCommand pr[ogram]
+syn keyword stataCommand q[uery]
+syn keyword stataCommand qui[etly]
+syn keyword stataCommand rcof
+syn keyword stataCommand reg[ress]
+syn keyword stataCommand rename
+syn keyword stataCommand repeat
+syn keyword stataCommand replace
+syn keyword stataCommand reshape
+syn keyword stataCommand ret[urn]
+syn keyword stataCommand _rmcoll
+syn keyword stataCommand _rmcoll
+syn keyword stataCommand _rmcollright
+syn keyword stataCommand rmdir
+syn keyword stataCommand _robust
+syn keyword stataCommand save
+syn keyword stataCommand sca[lar]
+syn keyword stataCommand search
+syn keyword stataCommand serset
+syn keyword stataCommand set
+syn keyword stataCommand shell
+syn keyword stataCommand sleep
+syn keyword stataCommand sort
+syn keyword stataCommand split
+syn keyword stataCommand sret[urn]
+syn keyword stataCommand ssc
+syn keyword stataCommand su[mmarize]
+syn keyword stataCommand syntax
+syn keyword stataCommand sysdescribe
+syn keyword stataCommand sysdir
+syn keyword stataCommand sysuse
+syn keyword stataCommand token[ize]
+syn keyword stataCommand translate
+syn keyword stataCommand type
+syn keyword stataCommand unab
+syn keyword stataCommand unabcmd
+syn keyword stataCommand update
+syn keyword stataCommand use
+syn keyword stataCommand vers[ion]
+syn keyword stataCommand view
+syn keyword stataCommand viewsource
+syn keyword stataCommand webdescribe
+syn keyword stataCommand webseek
+syn keyword stataCommand webuse
+syn keyword stataCommand which
+syn keyword stataCommand who
+syn keyword stataCommand window
 
 " Literals
-syn match  stQuote   /"/
-syn region stEString matchgroup=Nothing start=/`"/ end=/"'/ oneline contains=@stMacroGroup,stQuote,stString,stEString
-syn region stString  matchgroup=Nothing start=/"/ end=/"/   oneline contains=@stMacroGroup
+syn match  stataQuote   /"/
+syn region stataEString matchgroup=Nothing start=/`"/ end=/"'/ oneline contains=@stataMacroGroup,stataQuote,stataString,stataEString
+syn region stataString  matchgroup=Nothing start=/"/ end=/"/   oneline contains=@stataMacroGroup
 
 " define clusters
-syn cluster stFuncGroup contains=@stMacroGroup,stFunc,stString,stEstring
-syn cluster stMacroGroup contains=stGlobal,stLocal
-syn cluster stParenGroup contains=stParenError,stBracketError,stBraceError,stSpecial,stFormat
+syn cluster stataFuncGroup contains=@stataMacroGroup,stataFunc,stataString,stataEstring
+syn cluster stataMacroGroup contains=stataGlobal,stataLocal
+syn cluster stataParenGroup contains=stataParenError,stataBracketError,stataBraceError,stataSpecial,stataFormat
 
 " Stata functions
 " Math
-syn region stFunc matchgroup=Function start=/abs(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/acos(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/asin(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/atan(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/atan2(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/atanh(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/ceil(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/cloglog(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/comb(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/cos(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/digamma(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/exp(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/floor(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/int(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invcloglog(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invlogit(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/ln(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/lnfact(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/lnfactorial(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/lngamma(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/log(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/log10(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/logit(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/max(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/mod(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/reldif(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/round(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/sign(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/sin(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/sqrt(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/sum(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/tan(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/tanh(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/trigamma(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/trunc(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/abs(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/acos(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/asin(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/atan(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/atan2(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/atanh(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/ceil(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/cloglog(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/comb(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/cos(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/digamma(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/exp(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/floor(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/int(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invcloglog(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invlogit(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/ln(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/lnfact(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/lnfactorial(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/lngamma(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/log(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/log10(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/logit(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/max(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/mod(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/reldif(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/round(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/sign(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/sin(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/sqrt(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/sum(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/tan(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/tanh(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/trigamma(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/trunc(/ end=/)/ contains=@stataFuncGroup
 " Probability distriubtions and density functions
-syn region stFunc matchgroup=Function start=/betaden(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/Binomial(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/binorm(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/binormal(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/chi2(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/chi2tail(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dgammapda(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dgammapdada(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dgammapdadx(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dgammapdx(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dgammapdxdx(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/F(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/Fden(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/Ftail(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/gammaden(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/gammap(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/ibeta(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invbinomial(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invchi2(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invchi2tail(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invF(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invFtail(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invgammap(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invibeta(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invnchi2(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invFtail(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invibeta(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invnorm(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invnormal(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invttail(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/lnnormal(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/lnnormalden(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/nbetaden(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/nchi2(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/nFden(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/nFtail(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/nibeta(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/norm(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/normal(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/normalden(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/normden(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/npnchi2(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/tden(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/ttail(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/betaden(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/Binomial(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/binorm(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/binormal(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/chi2(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/chi2tail(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dgammapda(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dgammapdada(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dgammapdadx(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dgammapdx(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dgammapdxdx(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/F(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/Fden(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/Ftail(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/gammaden(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/gammap(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/ibeta(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invbinomial(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invchi2(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invchi2tail(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invF(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invFtail(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invgammap(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invibeta(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invnchi2(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invFtail(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invibeta(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invnorm(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invnormal(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invttail(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/lnnormal(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/lnnormalden(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/nbetaden(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/nchi2(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/nFden(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/nFtail(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/nibeta(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/norm(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/normal(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/normalden(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/normden(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/npnchi2(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/tden(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/ttail(/ end=/)/ contains=@stataFuncGroup
 " Random numbers
-syn region stFunc matchgroup=Function start=/uniform(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/uniform(/ end=/)/ contains=@stataFuncGroup
 " String
-syn region stFunc matchgroup=Function start=/abbrev(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/hchar(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/indexnot(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/itrim(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/length(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/lower(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/ltrim(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/plural(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/proper(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/real(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/regexm(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/regexr(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/regexs(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/reverse(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/rtrim(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/string(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/strlen(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/strmatch(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/strpos(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/subinstr(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/subinword(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/substr(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/trim(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/upper(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/word(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/wordcount(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/abbrev(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/hchar(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/indexnot(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/itrim(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/length(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/lower(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/ltrim(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/plural(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/proper(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/real(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/regexm(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/regexr(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/regexs(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/reverse(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/rtrim(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/string(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/strlen(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/strmatch(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/strpos(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/subinstr(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/subinword(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/substr(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/trim(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/upper(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/word(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/wordcount(/ end=/)/ contains=@stataFuncGroup
 " Programming
-syn region stFunc matchgroup=Function start=/autocode(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/byteorder(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/c(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/_caller(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/chop(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/clip(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/cond(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/e(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/epsdouble(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/epsfloat(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/float(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/has_eprop(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/has_eprop(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/inlist(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/inrange(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/irecode(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/matrix(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/maxbyte(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/maxdouble(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/maxfloat(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/maxint(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/maxlong(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/mi(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/minbyte(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/mindouble(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/minfloat(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/minint(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/minlong(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/missing(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/r(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/recode(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/replay(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/return(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/s(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/scalar(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/autocode(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/byteorder(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/c(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/_caller(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/chop(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/clip(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/cond(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/e(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/epsdouble(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/epsfloat(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/float(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/has_eprop(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/has_eprop(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/inlist(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/inrange(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/irecode(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/matrix(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/maxbyte(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/maxdouble(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/maxfloat(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/maxint(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/maxlong(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/mi(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/minbyte(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/mindouble(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/minfloat(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/minint(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/minlong(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/missing(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/r(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/recode(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/replay(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/return(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/s(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/scalar(/ end=/)/ contains=@stataFuncGroup
 " Date
-syn region stFunc matchgroup=Function start=/d(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/date(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/day(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dow(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/doy(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/halfyear(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/mdy(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/month(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/quarter(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/week(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/year(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/d(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/date(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/day(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dow(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/doy(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/halfyear(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/mdy(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/month(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/quarter(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/week(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/year(/ end=/)/ contains=@stataFuncGroup
 " Time-series
-syn region stFunc matchgroup=Function start=/daily(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/halfyearly(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/monthly(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/quarterly(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/weekly(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/yearly(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/daily(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/halfyearly(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/monthly(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/quarterly(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/weekly(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/yearly(/ end=/)/ contains=@stataFuncGroup
 "
-syn region stFunc matchgroup=Function start=/yh(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/ym(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/yq(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/yw(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/yh(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/ym(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/yq(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/yw(/ end=/)/ contains=@stataFuncGroup
 "
-syn region stFunc matchgroup=Function start=/d(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/h(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/m(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/q(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/w(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/y(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/d(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/h(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/m(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/q(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/w(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/y(/ end=/)/ contains=@stataFuncGroup
 "
-syn region stFunc matchgroup=Function start=/dofd(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dofh(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dofm(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dofq(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dofw(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/dofy(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/hofd(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/mofd(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/qofd(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/wofd(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/yofd(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/dofd(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dofh(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dofm(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dofq(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dofw(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/dofy(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/hofd(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/mofd(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/qofd(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/wofd(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/yofd(/ end=/)/ contains=@stataFuncGroup
 "
-syn region stFunc matchgroup=Function start=/tin(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/twithin(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/tin(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/twithin(/ end=/)/ contains=@stataFuncGroup
 " Matrix
-syn region stFunc matchgroup=Function start=/colnumb(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/colsof(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/det(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/diag0cnt(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/el(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/issymmetric(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/matmissing(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/mreldif(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/rownumb(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/rowsof(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/trace(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/colnumb(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/colsof(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/det(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/diag0cnt(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/el(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/issymmetric(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/matmissing(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/mreldif(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/rownumb(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/rowsof(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/trace(/ end=/)/ contains=@stataFuncGroup
 "
-syn region stFunc matchgroup=Function start=/cholsky(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/corr(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/diag(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/get(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/hadamard(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/I(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/inv(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/invsym(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/J(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/matuniform(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/nullmat(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/sweep(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/vec(/ end=/)/ contains=@stFuncGroup
-syn region stFunc matchgroup=Function start=/vecdiag(/ end=/)/ contains=@stFuncGroup
+syn region stataFunc matchgroup=Function start=/cholsky(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/corr(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/diag(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/get(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/hadamard(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/I(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/inv(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/invsym(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/J(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/matuniform(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/nullmat(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/sweep(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/vec(/ end=/)/ contains=@stataFuncGroup
+syn region stataFunc matchgroup=Function start=/vecdiag(/ end=/)/ contains=@stataFuncGroup
 
 " Errors to catch
 " taken from $VIMRUNTIME/syntax/c.vim 
 " catch errors caused by wrong parenthesis, braces and brackets
-syn region	stParen		transparent start=/(/ end=/)/  contains=ALLBUT,@stParenGroup,stErrInBracket,stErrInBrace
-syn region	stBracket	transparent start=/\[/ end=/]/ contains=ALLBUT,@stParenGroup,stErrInParen,stErrInBrace
-syn region	stBrace		transparent start=/{/ end=/}/  contains=ALLBUT,@stParenGroup,stErrInParen,stErrInBracket
-syn match	stParenError	/[\])}]/
-syn match	stBracketError	/]/
-syn match	stBraceError	/}/
-syn match	stErrInParen	contained /[\]{}]/
-syn match	stErrInBracket	contained /[){}]/
-syn match	stErrInBrace	contained /[)\]]/
+syn region	stataParen		transparent start=/(/ end=/)/  contains=ALLBUT,@stataParenGroup,stataErrInBracket,stataErrInBrace
+syn region	stataBracket	transparent start=/\[/ end=/]/ contains=ALLBUT,@stataParenGroup,stataErrInParen,stataErrInBrace
+syn region	stataBrace		transparent start=/{/ end=/}/  contains=ALLBUT,@stataParenGroup,stataErrInParen,stataErrInBracket
+syn match	stataParenError	/[\])}]/
+syn match	stataBracketError	/]/
+syn match	stataBraceError	/}/
+syn match	stataErrInParen	contained /[\]{}]/
+syn match	stataErrInBracket	contained /[){}]/
+syn match	stataErrInBrace	contained /[)\]]/
 
 " assign highlight groups
-hi link stBraceError		stError
-hi link stBracketError		stError
-hi link stErrInBrace		stError
-hi link stErrInBracket		stError
-hi link stErrInParen		stError
-hi link stEString		stString
-hi link stFormat		stSpecial
-hi link stGlobal		stMacro
-hi link stLocal			stMacro
-hi link stParenError		stError
-hi link stSlashComment		stComment
-hi link stStarComment		stComment
+hi def link stataBraceError	stataError
+hi def link stataBracketError	stataError
+hi def link stataErrInBrace	stataError
+hi def link stataErrInBracket	stataError
+hi def link stataErrInParen	stataError
+hi def link stataEString	stataString
+hi def link stataFormat		stataSpecial
+hi def link stataGlobal		stataMacro
+hi def link stataLocal		stataMacro
+hi def link stataParenError	stataError
+hi def link stataSlashComment	stataComment
+hi def link stataStarComment	stataComment
 
-hi link stCommand		Define
-hi link stComment		Comment
-hi link stConditional		Conditional
-hi link stError			Error
-hi link stFunc			None
-hi link stMacro			Define
-hi link stRepeat		Repeat
-hi link stSpecial		SpecialChar
-hi link stString		String
+hi def link stataCommand	Define
+hi def link stataComment	Comment
+hi def link stataConditional	Conditional
+hi def link stataError		Error
+hi def link stataFunc		None
+hi def link stataMacro		Define
+hi def link stataRepeat		Repeat
+hi def link stataSpecial	SpecialChar
+hi def link stataString		String
 
 let b:current_syntax = "stata"
 
